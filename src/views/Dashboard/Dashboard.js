@@ -4,7 +4,6 @@ import NavBar from '../../components/NavBar/NavBar';
 import './Dashboard.css';
 import TripSplitContext from '../../context/TripSplitContext';
 import Modal from '../../components/Modal/Modal';
-import AddFriend from '../../components/AddFriend/AddFriend';
 import NewTrip from '../../components/NewTrip/NewTrip';
 import STORE from '../../dummy-store';
 
