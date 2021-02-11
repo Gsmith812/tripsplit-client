@@ -1,0 +1,38 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10;
+  }
+  
+  .modal-main {
+    position:fixed;
+    background: white;
+    width: 50%;
+    height: auto;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    z-index: 15;
+    border: 1px solid #ccc;
+    padding: 1em;
+    box-shadow: 2px 2px 2px 2px #ccc;
+  }
+  
+  .modal-show {
+    display: block;
+  }
+  
+  .modal-hide {
+    display: none;
+  }
+
+  .window-close-btn {
+    color: red;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+  }

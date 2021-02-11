@@ -1,0 +1,20 @@
+.NewTrip h2 {
+    text-align: center;
+}
+
+.new-trip-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dates {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.add-trip-btn {
+    width: 50%;
+    margin-top: 10px;
+}
