@@ -9,7 +9,6 @@ function App() {
 
   const [show, setShow] = useState(false);
   const [modal, setModal] = useState();
-  const [isLoading, setIsLoading] = useState(false);
 
   const showModal = () => {
     setShow(true);

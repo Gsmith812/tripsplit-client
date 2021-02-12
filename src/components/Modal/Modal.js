@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import './Modal.css';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,6 +7,16 @@ const Modal = (props) => {
     const { handleClose, show, children } = props;
 
     const node = useRef();
+
+    const handleClickOverlay = useCallback((e) => {
+        if(node.current.contains(e.target)) {
+            // If inside component is clicked
+            return;
+        }
+
+        // If overlay is clicked
+        handleClose();
+    }, [handleClose]);
 
     useEffect(() => {
         if(show) {
@@ -20,17 +30,7 @@ const Modal = (props) => {
         return () => {
             document.removeEventListener('mousedown', handleClickOverlay);
         };
-    }, [show]);
-
-    const handleClickOverlay = e => {
-        if(node.current.contains(e.target)) {
-            // If inside component is clicked
-            return;
-        }
-
-        // If overlay is clicked
-        handleClose();
-    }
+    }, [show, handleClickOverlay]);
 
     const showHideClassName = show ? 'modal-show' : 'modal-hide';
     
