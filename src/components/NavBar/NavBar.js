@@ -6,7 +6,7 @@ const NavBar = (props) => {
     return (
         <section className='NavBar'>
             <div className='logo'>
-                <NavLink to='/'>
+                <NavLink className='logo-link' to='/'>
                     <h1>TripSplit</h1>
                 </NavLink>
             </div>

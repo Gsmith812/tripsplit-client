@@ -11,7 +11,7 @@ const Dashboard = props => {
 
     const { show, hideModal, modal, handleModals } = useContext(TripSplitContext);
 
-    const { trips, friends } = STORE;
+    const { trips } = STORE;
 
     return (
         <section className='Dashboard'>
@@ -20,17 +20,6 @@ const Dashboard = props => {
                 <section className='greeting'>
                     <h2>Hello, Guest</h2>
                 </section>
-                <section className='friends-list'>
-                    <h3>Friend's List:</h3>
-                    <ul>
-                        {friends.map((friend, i) => {
-                            return (
-                                <li key={i}>{friend}</li>
-                            )
-                        })}
-                    </ul>
-                    <button onClick={() => handleModals('addFriend')}>Add Friend</button>
-                </section>
             </div>
             <section className='trips-list'>
                 <h3>Upcoming Trips</h3>
@@ -38,17 +27,16 @@ const Dashboard = props => {
                         {trips.map((trip, i) => {
                             return (
                                 <div className='trip-item' key={i}>
-                                    <Link to={`/trips/${trip.id}`}>
+                                    <Link className='trip-link' to={`/trips/${trip.id}`}>
                                         <h4>{trip.tripName}</h4>
                                         <p>Total Amount: {trip.totalAmount.toLocaleString('en-US', {style: 'currency', currency: 'USD'})}</p>
                                         <p>Trip starts on {trip.tripStartDate}</p>
-                                        <span className='countdown-timer'>Countdown to Vacation here</span>
                                     </Link>
                                 </div>
                             )
                         })}
                 </div>
-                <button className='new-trip' onClick={() => handleModals('newTrip')}>New Trip +</button>
+                <button className='new-trip' onClick={() => handleModals('newTrip')}>New Trip</button>
                 <Modal show={show} handleClose={hideModal}>
                     {modal === 'newTrip' && <NewTrip />}
                 </Modal>

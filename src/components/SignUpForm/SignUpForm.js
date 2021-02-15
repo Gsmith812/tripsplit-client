@@ -5,7 +5,7 @@ const SignUpForm = props => {
     return (
         <section className='sign-up'>
             <div className='sign-up-container'>
-                <h3>Sign-up</h3>
+                <h2>Sign-up</h2>
                 <form className="sign-up-form">
                     <label htmlFor="first-name">First Name:</label>
                     <input type="text" id='first-name' name='first_name' required />

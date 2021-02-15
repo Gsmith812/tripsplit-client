@@ -1,13 +1,12 @@
 .sign-up-container {
-    width: 100%;
+    width: 85%;
+    max-height: 90vh;
+    margin: 0 auto;
 }
 
-.sign-up {
+.sign-up  h2 {
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    z-index: 5;
-    width: 75%;
+    margin: 0;
 }
 
 .sign-up-form {
@@ -15,6 +14,20 @@
     flex-direction: column;
     margin-left: auto;
     margin-right: auto;
+}
+
+.sign-up-form label {
+    margin: 5px 0;
+}
+
+.sign-up-form button {
+    border: 1px #ccc solid;
+    margin: 10px auto;
+    width: 75%;
+    padding: 10px 5px;
+    background-color: #fff;
+    font-size: 1em;
+    font-weight: bold;
 }
   
   
