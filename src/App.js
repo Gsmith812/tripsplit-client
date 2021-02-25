@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import Dashboard from './views/Dashboard/Dashboard';
 import { useState } from 'react';
 import TripSplitContext from './context/TripSplitContext';
+import TripPage from './views/TripPage/TripPage';
 
 function App() {
 
@@ -44,6 +45,10 @@ function App() {
           <Route
             path='/dashboard'
             component={Dashboard}
+          />
+          <Route
+            path='/trips/:tripId'
+            component={TripPage}
           />
         </Switch>
       </TripSplitContext.Provider>
