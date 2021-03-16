@@ -6,6 +6,7 @@ import TripSplitContext from '../../context/TripSplitContext';
 import Modal from '../../components/Modal/Modal';
 import NewTrip from '../../components/NewTrip/NewTrip';
 import STORE from '../../dummy-store';
+import LoginForm from '../../components/LoginForm/LoginForm';
 
 const Dashboard = props => {
 
@@ -15,7 +16,7 @@ const Dashboard = props => {
 
     return (
         <section className='Dashboard'>
-            <NavBar />
+            <NavBar history={props.history} />
             <div className='top-container'>
                 <section className='greeting'>
                     <h2>Hello, Guest</h2>
@@ -36,9 +37,10 @@ const Dashboard = props => {
                             )
                         })}
                 </div>
-                <button className='new-trip' onClick={() => handleModals('newTrip')}>New Trip</button>
+                <button className='new-trip' onClick={() => handleModals('newTrip')}>+NEW TRIP</button>
                 <Modal show={show} handleClose={hideModal}>
                     {modal === 'newTrip' && <NewTrip />}
+                    {modal === 'login' && <LoginForm />}
                 </Modal>
             </section>
         </section>

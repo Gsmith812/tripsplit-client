@@ -2,3 +2,29 @@
     text-decoration: none;
     color: #000;
 }
+
+.NavBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}
+
+.SideBarMenu {
+    z-index: 100;
+    position: absolute;
+    right: 10px;
+    background-color: #fff;
+    margin-top: 5px;
+    box-shadow: 2px 2px 2px 3px #ccc;
+}
+
+.menu-bar {
+    list-style: none;
+    margin-right: 20px;
+}
+
+.menu-bar li {
+    margin-bottom: 10px;
+}

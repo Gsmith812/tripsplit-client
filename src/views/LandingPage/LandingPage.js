@@ -16,7 +16,9 @@ const LandingPage = props => {
                <button className='demo' onClick={() => props.history.push('/dashboard')}>Demo</button>
             </div>
             <p className='tagline'>Splitting vacations shouldn't give you a splitting headache...</p>
-            <p>Make splitting trip expenses with friends and colleagues easier by using TripSplit! Let us do the number crunching for you, so you can get back to enjoying your vacation!</p>
+            <hr />
+            <p className='description'>Make splitting trip expenses with friends and colleagues easier by using TripSplit! Let us do the number crunching for you, so you can get back to enjoying your vacation!</p>
+            <hr />
             <div className='account-btns'>
                 <button onClick={() => handleModals('sign-up')}>Sign Up</button>
                 <button onClick={() => handleModals('login')}>Login</button>

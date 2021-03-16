@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import NavBar from '../../components/NavBar/NavBar';
 import './TripPage.css';
 import STORE from '../../dummy-store';
 import FriendsList from '../../components/FriendsList/FriendsList';
+import Modal from '../../components/Modal/Modal';
+import TripSplitContext from '../../context/TripSplitContext';
+import LoginForm from '../../components/LoginForm/LoginForm';
+import AddExpense from '../../components/AddExpense/AddExpense';
 
 const TripPage = (props) => {
+
+    const { show, hideModal, modal, handleModals } = useContext(TripSplitContext);
 
     const { trips } = STORE;
     const { tripId } = props.match.params;
@@ -12,7 +18,7 @@ const TripPage = (props) => {
 
     return (
         <section className='TripPage'>
-            <NavBar />
+            <NavBar history={props.history} />
             <button className='back-button' onClick={() => props.history.goBack()}>Back to Dashboard</button>
             <section className='trip-details'>
                 <div className='trip-description'>
@@ -43,7 +49,12 @@ const TripPage = (props) => {
                         </div>
                     )
                 })}
+                <button className='add-expense' onClick={() => handleModals('add-expense')}>+ EXPENSE</button>
             </section>
+            <Modal show={show} handleClose={hideModal}>
+                {modal === 'login' && <LoginForm />}
+                {modal === 'add-expense' && <AddExpense friends={currTrip[0].friends} /> }
+            </Modal>
         </section>
     )
 }
