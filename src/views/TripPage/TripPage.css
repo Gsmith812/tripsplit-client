@@ -85,3 +85,9 @@ padding-left: 5%;
     left: 30%;
     bottom: 5vh;
 }
+
+.no-expenses {
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+}

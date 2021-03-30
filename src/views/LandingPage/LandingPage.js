@@ -24,8 +24,8 @@ const LandingPage = props => {
                 <button onClick={() => handleModals('login')}>Login</button>
             </div>
             <Modal show={show} handleClose={hideModal}>
-                {modal === 'sign-up' && <SignUpForm />}
-                {modal === 'login' && <LoginForm />}
+                {modal === 'sign-up' && <SignUpForm hideModal={() => hideModal()} history={props.history}/>}
+                {modal === 'login' && <LoginForm hideModal={() => hideModal()} history={props.history} />}
             </Modal>
         </section>
     )

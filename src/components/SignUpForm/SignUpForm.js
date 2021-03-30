@@ -6,7 +6,7 @@ const SignUpForm = props => {
         <section className='sign-up'>
             <div className='sign-up-container'>
                 <h2>Sign-up</h2>
-                <form className="sign-up-form">
+                <form className="sign-up-form" onSubmit={() => props.history.push('/dashboard')}>
                     <label htmlFor="first-name">First Name:</label>
                     <input type="text" id='first-name' name='first_name' required />
                     <label htmlFor='last-name'>Last Name:</label>

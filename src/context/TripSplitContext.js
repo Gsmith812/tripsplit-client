@@ -8,6 +8,8 @@ const TripSplitContext = React.createContext({
     hideModal: () => {},
     handleModals: () => {},
     setModal: () => {},
+    trips: null,
+    handleAddTrip: () => {},
 })
 
 export default TripSplitContext;

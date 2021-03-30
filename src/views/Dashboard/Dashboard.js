@@ -5,14 +5,11 @@ import './Dashboard.css';
 import TripSplitContext from '../../context/TripSplitContext';
 import Modal from '../../components/Modal/Modal';
 import NewTrip from '../../components/NewTrip/NewTrip';
-import STORE from '../../dummy-store';
 import LoginForm from '../../components/LoginForm/LoginForm';
 
 const Dashboard = props => {
 
-    const { show, hideModal, modal, handleModals } = useContext(TripSplitContext);
-
-    const { trips } = STORE;
+    const { show, hideModal, modal, handleModals, trips } = useContext(TripSplitContext);
 
     return (
         <section className='Dashboard'>
@@ -39,8 +36,8 @@ const Dashboard = props => {
                 </div>
                 <button className='new-trip' onClick={() => handleModals('newTrip')}>+NEW TRIP</button>
                 <Modal show={show} handleClose={hideModal}>
-                    {modal === 'newTrip' && <NewTrip />}
-                    {modal === 'login' && <LoginForm />}
+                    {modal === 'newTrip' && <NewTrip hideModal={() => hideModal()} />}
+                    {modal === 'login' && <LoginForm history={props.history} hideModal={() => hideModal()} />}
                 </Modal>
             </section>
         </section>
