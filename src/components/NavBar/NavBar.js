@@ -26,7 +26,7 @@ const NavBar = (props) => {
                     menuClicked={handleMenuClicked}
                     isOpen={open}
                 />
-                {open && <SideBarMenu history={props.history} />}
+                {open && <SideBarMenu history={props.history} menuClicked={handleMenuClicked} />}
             </div>
         </section>
     )

@@ -19,3 +19,32 @@
     border: 1px #000 solid;
     background-color: #fff;
 }
+
+.friends-included {
+    display: flex;
+    flex-direction: column;
+    margin: .5em 0;
+}
+
+.friend-item {
+    margin: .25em;
+}
+
+.friend-split, .amount-paid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.amount-paid {
+    margin-bottom: 10px;
+}
+
+#split-percentage, #itemized-split {
+    width: 50px;
+}
+
+#amount-paid {
+    width: 80px;
+}
