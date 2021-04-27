@@ -54,7 +54,7 @@ const TripPage = (props) => {
             </section>
             <Modal show={show} handleClose={hideModal}>
                 {modal === 'login' && <LoginForm hideModal={() => hideModal()} history={props.history} />}
-                {modal === 'add-expense' && <AddExpense friends={currTrip.friends} hideModal={() => hideModal()} history={props.history} /> }
+                {modal === 'add-expense' && <AddExpense trip={currTrip} hideModal={() => hideModal()} history={props.history} /> }
             </Modal>
         </section>
     )

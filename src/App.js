@@ -38,6 +38,32 @@ const handleAddTrip = newTrip => {
   setTrips([...trips, newTrip]);
 }
 
+const handleNewExpense = (newExpense, tripId) => {
+  const currTrip = trips.find(t => t.id === tripId);
+  newExpense.id = currTrip.expenses.length + 1;
+  currTrip.expenses.push(newExpense);
+  currTrip.totalAmount += newExpense.amount;
+  const addPaidByAmount = currTrip.friends.find(pay => pay.name === newExpense.paidBy);
+  addPaidByAmount.amountPaid += newExpense.amount;
+  newExpense.friendsIncluded.map(f => {
+    if(newExpense.splitType === 'Equally') {
+      console.log('entered if statement')
+      const equalSplit = parseFloat(newExpense.amount / 3);
+      if(addPaidByAmount.amountOwed[f.name]) {
+        addPaidByAmount.amountOwed[f.name] -= equalSplit;
+      }
+      if(!f.amountOwed) {
+        f.amountOwed = {[newExpense.paidBy]: equalSplit}
+      } else if(!f.amountOwed[newExpense.paidBy]) {
+        f.amountOwed = {...f.amountOwed,[newExpense.paidBy]: equalSplit};
+      } else {
+        f.amountOwed[newExpense.paidBy] += equalSplit;
+      }
+    }
+  })
+  setTrips([...trips]);
+}
+
   const contextValue = {
     show,
     setShow,
@@ -47,7 +73,8 @@ const handleAddTrip = newTrip => {
     modal,
     setModal,
     trips,
-    handleAddTrip
+    handleAddTrip,
+    handleNewExpense
   }
 
   return (

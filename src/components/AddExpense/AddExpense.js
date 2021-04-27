@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import TripSplitContext from '../../context/TripSplitContext';
 import './AddExpense.css';
 
 export default function AddExpense(props) {
 
-    const { friends } = props;
+    const { friends } = props.trip;
+
+    const { handleNewExpense } = useContext(TripSplitContext);
 
     const [paidBy, setPaidBy] = useState('');
     const [friendsIncluded, setFriendsIncluded] = useState([]);
     const [splitType, setSplitType] = useState('');
-    const [itemizedList, setItemizedList] = useState([]);
-    const [percentageList, setPercentageList] = useState([]);
+    const [friendSplitList, setFriendSplitList] = useState([]);
 
     const handleCheckBox = (e, friend) => {
         if(friendsIncluded.length === 0) {
@@ -22,31 +24,21 @@ export default function AddExpense(props) {
         }
     }
 
-    const handleFriendsSplit = () => {
-        if(splitType === 'Itemized') {
-            const itemizedFriendsIncluded = [];
-            itemizedFriendsIncluded.push({[paidBy]: 0});
-            friendsIncluded.forEach(f => {
-                itemizedFriendsIncluded.push({[f.name]: 0})
-                return itemizedFriendsIncluded;
-            });
-            setItemizedList(itemizedFriendsIncluded);
-        }
-        else if(splitType === 'Percentage') {
-            const percentageFriendsIncluded = [];
-            percentageFriendsIncluded.push({[paidBy]: 0});
-            friendsIncluded.forEach(f => {
-                percentageFriendsIncluded.push({[f.name]: 0});
-                return percentageFriendsIncluded;
-            });
-            setPercentageList(percentageFriendsIncluded);
-        }
+    const handlePaidBy = e => {
+        setFriendsIncluded([]);
+        setPaidBy(e.target.value);
     }
 
     const handleSplitType = (e) => {
         setSplitType(e.target.value);
-        setItemizedList([]);
-        setPercentageList([]);
+        setFriendSplitList([]);
+        const friendSplitIncluded = [];
+        friendSplitIncluded.push({ name: paidBy,amount: 0})
+        friendsIncluded.forEach(f => {
+            friendSplitIncluded.push({name: f.name ,amount: 0});
+            return friendSplitIncluded;
+        });
+        setFriendSplitList(friendSplitIncluded);
     }
 
     const handleAddExpense = e => {
@@ -54,19 +46,28 @@ export default function AddExpense(props) {
         const { expenseName, amountPaid, splitType } = e.target;
         const newExpense = {
             expenseName: expenseName.value,
-            amount: amountPaid.value,
+            amount: parseFloat(amountPaid.value),
             paidBy,
             splitType: splitType.value,
             friendsIncluded
         };
+        if(splitType.value === 'Itemized') {
+            newExpense.itemizedAmounts = friendSplitList;
+        }
+        if(splitType.value === 'Percentage') {
+            newExpense.percentageAmounts = friendSplitList;
+        }
+        handleNewExpense(newExpense, props.trip.id);
     }
 
-    const handleItemization = (e, friend) => {
-        setItemizedList(
-            {
-                [friend]: e.target.value
-            }
-        ) 
+    const handleSplitPercentages = (e, index) => {
+        friendSplitList[index] = {...friendSplitList[index], amount: parseFloat(e.target.value)};
+        setFriendSplitList([...friendSplitList]);
+    }
+
+    const handleSplitItemized = (e, index) => {
+        friendSplitList[index] = {...friendSplitList[index], amount: parseFloat(e.target.value)};
+        setFriendSplitList([...friendSplitList]);
     }
 
     return (
@@ -80,7 +81,7 @@ export default function AddExpense(props) {
                     <input type='text' id='amount-paid' name='amountPaid' required />
                 </section>
                 <label htmlFor='paid-by'>Who paid for this expense?</label>
-                <select id='paid-by' name='paidBy' onChange={(e) => setPaidBy(e.target.value)} required>
+                <select id='paid-by' name='paidBy' onChange={(e) => handlePaidBy(e)} required>
                     <option value=''>Select One..</option>
                     {friends.map(friend => {
                         return (
@@ -115,19 +116,13 @@ export default function AddExpense(props) {
                     splitType === 'Percentage' &&
                     (
                         <section className='split-form'>
-                            <div className='friend-split'>
-                                <label htmlFor='split-percentage'>
-                                    {paidBy}
-                                </label>
-                                <input type='percentage' id='split-percentage' name='splitPercentagePaidBy' required />
-                            </div>
-                            {friendsIncluded.map((f, i) => {
+                            {friendSplitList.map((f, i) => {
                                 return (
-                                    <div className='friend-split' key={f.id}>
+                                    <div className='friend-split' key={i}>
                                         <label htmlFor='split-percentage'>
                                             {f.name}
                                         </label>
-                                        <input type='percentage' id='split-percentage' name={`splitPercentage`+ i} onChange={(e) => handleItemization(e, f.name)} required />
+                                        <input type='percentage' id='split-percentage' value={f.amount} onChange={(e) => handleSplitPercentages(e, i)} name={`splitPercentage`+ i} required />
                                     </div>
                                 )
                             })}
@@ -137,19 +132,13 @@ export default function AddExpense(props) {
                 {
                     splitType === 'Itemized' && (
                         <section className='split-form'>
-                            <div className='friend-split'>
-                                <label htmlFor='itemized-split'>
-                                    {paidBy}
-                                </label>
-                                <input type='number' id='itemized-split' name='itemizedSplitPaidBy' required />
-                            </div>
-                            {friendsIncluded.map((f, i) => {
+                            {friendSplitList.map((f, i) => {
                                 return (
-                                    <div className='friend-split' key={f.id}>
+                                    <div className='friend-split' key={i}>
                                         <label htmlFor='itemized-split'>
                                             {f.name}
                                         </label>
-                                        <input type='number' id='itemized-split' value={itemizedList[f.name]} name={`itemizedSplit`+ i} onChange={(e) => handleItemization(e, f.name)} required />
+                                        <input type='number' id='itemized-split' name={`itemizedSplit`+ i} value={f.amount} onChange={(e) => handleSplitItemized(e, i)} required />
                                     </div>
                                 )
                             })}
