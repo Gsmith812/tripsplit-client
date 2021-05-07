@@ -6,6 +6,7 @@ import Modal from '../../components/Modal/Modal';
 import TripSplitContext from '../../context/TripSplitContext';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import AddExpense from '../../components/AddExpense/AddExpense';
+import ExpenseItem from '../../components/ExpenseItem/ExpenseItem';
 
 const TripPage = (props) => {
 
@@ -39,13 +40,7 @@ const TripPage = (props) => {
                 {currTrip.expenses.length > 0 ?
                     currTrip.expenses.map(exp => {
                         return (
-                            <div className='expense-item' key={exp.id}>
-                                <div className='expense-field'>
-                                    <span className='left-col'>{exp.expenseName}</span>
-                                    <span className='center-col'>{exp.paidBy}</span>
-                                    <span className='right-col'>{exp.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
-                                </div>
-                            </div>
+                            <ExpenseItem exp={exp} key={exp.id} />
                         )
                     }) 
                     : <p className='no-expenses'>No expenses yet.</p>

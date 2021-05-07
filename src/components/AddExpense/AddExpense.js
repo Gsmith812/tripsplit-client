@@ -6,7 +6,7 @@ export default function AddExpense(props) {
 
     const { friends } = props.trip;
 
-    const { handleNewExpense } = useContext(TripSplitContext);
+    const { handleNewExpense, hideModal } = useContext(TripSplitContext);
 
     const [paidBy, setPaidBy] = useState('');
     const [friendsIncluded, setFriendsIncluded] = useState([]);
@@ -54,15 +54,13 @@ export default function AddExpense(props) {
         if(splitType.value === 'Itemized') {
             newExpense.itemizedAmounts = friendSplitList;
         }
-        if(splitType.value === 'Percentage') {
-            newExpense.percentageAmounts = friendSplitList;
-        }
         handleNewExpense(newExpense, props.trip.id);
-    }
-
-    const handleSplitPercentages = (e, index) => {
-        friendSplitList[index] = {...friendSplitList[index], amount: parseFloat(e.target.value)};
-        setFriendSplitList([...friendSplitList]);
+        setFriendsIncluded([]);
+        setFriendSplitList([]);
+        setPaidBy('');
+        setSplitType('');
+        e.target.reset();
+        hideModal();
     }
 
     const handleSplitItemized = (e, index) => {
@@ -106,27 +104,9 @@ export default function AddExpense(props) {
                             <select id='split-type' name='splitType' onChange={(e) => handleSplitType(e)} required>
                                 <option value=''>Select one...</option>
                                 <option value='Equally'>Equally</option>
-                                <option value='Percentage'>Percentage</option>
                                 <option value='Itemized'>Itemized</option>
                             </select>
                         </div>
-                    )
-                }
-                {
-                    splitType === 'Percentage' &&
-                    (
-                        <section className='split-form'>
-                            {friendSplitList.map((f, i) => {
-                                return (
-                                    <div className='friend-split' key={i}>
-                                        <label htmlFor='split-percentage'>
-                                            {f.name}
-                                        </label>
-                                        <input type='percentage' id='split-percentage' value={f.amount} onChange={(e) => handleSplitPercentages(e, i)} name={`splitPercentage`+ i} required />
-                                    </div>
-                                )
-                            })}
-                        </section>
                     )
                 }
                 {

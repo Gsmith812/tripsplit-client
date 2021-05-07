@@ -47,9 +47,12 @@ const handleNewExpense = (newExpense, tripId) => {
   addPaidByAmount.amountPaid += newExpense.amount;
   newExpense.friendsIncluded.map(f => {
     if(newExpense.splitType === 'Equally') {
-      console.log('entered if statement')
       const equalSplit = parseFloat(newExpense.amount / 3);
-      if(addPaidByAmount.amountOwed[f.name]) {
+      if(!addPaidByAmount.amountOwed) {
+        addPaidByAmount.amountOwed = {[f.name]: -equalSplit}
+      } else if(!addPaidByAmount.amountOwed[f.name]) {
+        addPaidByAmount.amountOwed = {...addPaidByAmount.amountOwed, [f.name]: -equalSplit}
+      } else {
         addPaidByAmount.amountOwed[f.name] -= equalSplit;
       }
       if(!f.amountOwed) {
@@ -59,8 +62,34 @@ const handleNewExpense = (newExpense, tripId) => {
       } else {
         f.amountOwed[newExpense.paidBy] += equalSplit;
       }
-    }
+    } 
+    return f;
   })
+  if(newExpense.itemizedAmounts) {
+    newExpense.itemizedAmounts.map(item => {
+      if(item.name !== newExpense.paidBy){
+        console.log('if statement entered');
+        if(!addPaidByAmount.amountOwed) {
+          addPaidByAmount.amountOwed = {[item.name]: -item.amount}
+        } else if(!addPaidByAmount.amountOwed[item.name]) {
+          addPaidByAmount.amountOwed = {...addPaidByAmount.amountOwed, [item.name]: -item.amount}
+        } else {
+          addPaidByAmount.amountOwed[item.name] -= item.amount;
+        }
+        let friendOwes = currTrip.friends.find(f => f.name === item.name);
+        console.log(friendOwes);
+        if(!friendOwes.amountOwed) {
+          friendOwes.amountOwed = {[addPaidByAmount.name]: +item.amount};
+        } else if(!friendOwes.amountOwed[addPaidByAmount.name]){
+          friendOwes.amountOwed = {...friendOwes.amountOwed, [addPaidByAmount.name]: +item.amount};
+        } else {
+          friendOwes.amountOwed[addPaidByAmount.name] -= item.amount;
+        }
+      }
+      return newExpense;
+    })
+  }
+  console.log(newExpense);
   setTrips([...trips]);
 }
 
